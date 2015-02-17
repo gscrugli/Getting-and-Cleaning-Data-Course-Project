@@ -35,10 +35,26 @@ run_analysis <- function() {
         ## read data into List of Data Frames
         my_list <- list()
         for (i in sequence){
-                #print(i-1)
-                my_list[[i-1]] <-read.table(my_files[i,],header=FALSE) 
-                print(dim(my_list[[i-1]]))
+                #print(i)
+                if(i==4 | i==7){
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=as.vector(as.matrix(my_list[[1]][2])))   
+                }
+                else if(i==5|i==8){
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("actvity")) 
+                }
+                else if(i==6|i==9){
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("subject")) 
+                }
+                else{
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE)
+                }
         }
+        #print(as.vector(as.matrix(my_list[[1]][2])))
+        my_dataset_1 <- cbind(my_list[[5]],my_list[[4]],my_list[[3]])
+        my_dataset_2 <- cbind(my_list[[8]],my_list[[7]],my_list[[6]])
+        my_dataset <- rbind(my_dataset_1,my_dataset_2)
+        print(dim(my_dataset))
+        print(colnames(my_dataset))
         # merge to my_dataset
         # my_dataset_1 <- data.frame()
         # my_dataset_2 <- data.frame()
