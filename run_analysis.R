@@ -23,15 +23,19 @@ run_analysis <- function() {
                         my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=as.vector(as.matrix(my_list[[1]][2])))   
                 }
                 else if(i==5|i==8){
-                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("actvity")) 
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("activity.id")) 
                 }
                 else if(i==6|i==9){
-                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("subject")) 
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("subject.id")) 
+                }
+                else if (i==3){
+                        my_list[[i-1]] <-read.table(my_files[i,],header=FALSE,col.names=c("id","activity")) 
                 }
                 else{
                         my_list[[i-1]] <-read.table(my_files[i,],header=FALSE)
                 }
         }
+        
         ## extract mean and std columns in Test and train data
         my_train1 <- select(my_list[[3]],contains("mean",ignore.case=TRUE))
         my_train2 <- select(my_list[[3]],contains("std",ignore.case=TRUE))
@@ -39,10 +43,19 @@ run_analysis <- function() {
         my_test1 <- select(my_list[[6]],contains("mean",ignore.case=TRUE))
         my_test2 <- select(my_list[[6]],contains("std",ignore.case=TRUE))
         my_test <- cbind(my_test1,my_test2)
+        
         ## merge file content into a merged data frame
         my_dataset_1 <- cbind(my_list[[5]],my_list[[4]],my_train)
         my_dataset_2 <- cbind(my_list[[8]],my_list[[7]],my_test)
         my_dataset <- rbind(my_dataset_1,my_dataset_2)
-        print(dim(my_dataset))
-        print(colnames(my_dataset))
+        
+        ## Use descriptive activity names to name the activities in the data set
+        my_dataset <- merge(my_list[[2]],my_dataset,by.x="id",by.y="activity.id",all=TRUE)
+
+        # Appropriately label the data set with descriptive variable names
+        
+        # Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+        
+        # For submission create data set as a txt file created with write.table() using row.name=FALSE
+        
 }
