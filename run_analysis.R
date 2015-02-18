@@ -55,7 +55,11 @@ run_analysis <- function() {
         # Appropriately label the data set with descriptive variable names
         
         # Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-        
+        my_tidydata <- melt(my_dataset,id=c("id","activity","subject.id"))
+        res <- group_by(my_tidydata,subject.id,id,activity,variable)
+        res <- summarize(res,value=mean(value))
+       
         # For submission create data set as a txt file created with write.table() using row.name=FALSE
-        
+        write.table(res,file="tidydata.txt",row.name=FALSE)
+        #print("done")
 }
