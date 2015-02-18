@@ -51,12 +51,13 @@ run_analysis <- function() {
         
         ## Use descriptive activity names to name the activities in the data set
         my_dataset <- merge(my_list[[2]],my_dataset,by.x="id",by.y="activity.id",all=TRUE)
+        my_dataset <- select(my_dataset,-(id))
 
         # Appropriately label the data set with descriptive variable names
         
         # Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-        my_tidydata <- melt(my_dataset,id=c("id","activity","subject.id"))
-        res <- group_by(my_tidydata,subject.id,id,activity,variable)
+        my_tidydata <- melt(my_dataset,id=c("activity","subject.id"))
+        res <- group_by(my_tidydata,subject.id,activity,variable)
         res <- summarize(res,value=mean(value))
        
         # For submission create data set as a txt file created with write.table() using row.name=FALSE
