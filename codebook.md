@@ -20,7 +20,7 @@ activity        factor
 variable        factor
         Shows variables used on the feature vector.
         Only features are listed with "std" or "mean" in the name.
-        tBodyAcc.mean...X .. fBodyBodyGyroJerkMag.std..
+        tBodyAcc mean X .. fBodyBodyGyroJerkMag std
         
 value           int
         Shows mean value on the feature vactor.
