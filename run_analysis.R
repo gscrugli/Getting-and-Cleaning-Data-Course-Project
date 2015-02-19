@@ -59,6 +59,8 @@ run_analysis <- function() {
         my_tidydata <- melt(my_dataset,id=c("activity","subject.id"))
         res <- group_by(my_tidydata,subject.id,activity,variable)
         res <- summarize(res,value=mean(value))
+        res <- mutate(res,variable=gsub("\\."," ",variable))
+        res <- mutate(res,variable=gsub("   "," ",variable))
        
         # For submission create data set as a txt file created with write.table() using row.name=FALSE
         write.table(res,file="tidydata.txt",row.name=FALSE)
